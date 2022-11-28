@@ -72,13 +72,12 @@ def exception_handler(func):
 
 def decor_user_id(func):
     def wrap_decor_user_id(user_id=None, company_id=None):
-        func_res = func(company_id)
+        list_user_companies = (users_dict.get(user_id)).get("companies")
         if user_id not in users_dict:
             raise NotFound
-        
-        list_user_companies = (users_dict.get(user_id)).get("companies")
         if int(company_id) not in list_user_companies:
             raise NoAccess
+        func_res = func(company_id)
         return func_res
     return wrap_decor_user_id
 
